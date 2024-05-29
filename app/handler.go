@@ -7,7 +7,6 @@ import (
 
 	"userservice/entity"
 
-	"github.com/google/uuid"
 	"github.com/nats-io/nats.go"
 )
 
@@ -58,10 +57,7 @@ func UpdateUserHandler() nats.MsgHandler {
 // ReadUserHandler handles the ReadUser messages
 func ReadUserHandler() nats.MsgHandler {
 	return handleMessage(func(ctx context.Context, data []byte) (interface{}, error) {
-		id, err := uuid.Parse(string(data))
-		if err != nil {
-			return nil, err
-		}
+		id := string(data)
 		return ReadUser(ctx, id)
 	})
 }
@@ -77,10 +73,7 @@ func ReadAllUsersHandler() nats.MsgHandler {
 // DeleteUserHandler handles the DeleteUser messages
 func DeleteUserHandler() nats.MsgHandler {
 	return handleMessage(func(ctx context.Context, data []byte) (interface{}, error) {
-		id, err := uuid.Parse(string(data))
-		if err != nil {
-			return nil, err
-		}
+		id := string(data)
 		return DeleteUser(ctx, id)
 	})
 }

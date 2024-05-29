@@ -4,7 +4,6 @@ import (
 	"context"
 	"userservice/entity"
 
-	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
@@ -41,7 +40,7 @@ func ReadAll(ctx context.Context, authorId string, logger *zap.SugaredLogger) ([
 	return users, nil
 }
 
-func ReadUserById(ctx context.Context, id uuid.UUID, logger *zap.SugaredLogger) (*entity.User, error) {
+func ReadUserById(ctx context.Context, id string, logger *zap.SugaredLogger) (*entity.User, error) {
 	logger.Infof("Retrieving user with ID: %s", id)
 	user := new(entity.User)
 	err := db.NewSelect().Model(user).Where("id = ?", id).Scan(ctx)
@@ -62,7 +61,7 @@ func UpdateUser(ctx context.Context, user *entity.User, logger *zap.SugaredLogge
 	return nil
 }
 
-func DeleteUser(ctx context.Context, id uuid.UUID, logger *zap.SugaredLogger) error {
+func DeleteUser(ctx context.Context, id string, logger *zap.SugaredLogger) error {
 	logger.Infof("Deleting %s", id)
 	_, err := db.NewDelete().Model(&entity.User{}).Where("id = ?", id).Exec(ctx)
 	if err != nil {

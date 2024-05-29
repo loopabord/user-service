@@ -6,7 +6,6 @@ import (
 	"userservice/database"
 	"userservice/entity"
 
-	"github.com/google/uuid"
 	"go.uber.org/zap"
 )
 
@@ -55,7 +54,7 @@ func UpdateUser(ctx context.Context, user entity.User) (entity.User, error) {
 	return result.(entity.User), nil
 }
 
-func ReadUser(ctx context.Context, id uuid.UUID) (entity.User, error) {
+func ReadUser(ctx context.Context, id string) (entity.User, error) {
 	result, err := withDBAndLogger(ctx, func(ctx context.Context, logger *zap.SugaredLogger) (interface{}, error) {
 		user, err := database.ReadUserById(ctx, id, logger)
 		if err != nil {
@@ -83,7 +82,7 @@ func ReadAllUsers(ctx context.Context, authorId string) ([]entity.User, error) {
 	return result.([]entity.User), nil
 }
 
-func DeleteUser(ctx context.Context, id uuid.UUID) (string, error) {
+func DeleteUser(ctx context.Context, id string) (string, error) {
 	result, err := withDBAndLogger(ctx, func(ctx context.Context, logger *zap.SugaredLogger) (interface{}, error) {
 		err := database.DeleteUser(ctx, id, logger)
 		if err != nil {
